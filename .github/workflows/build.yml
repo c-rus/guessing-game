@@ -22,8 +22,8 @@ jobs:
       - name: Build
         run: cargo build --release
 
-      - name: Upload ${{ os.platform }} artifact
+      - name: Upload ${{ matrix.platform }} artifact
         uses: actions/upload-artifact@v2
         with:
-          name: guessing-game-${{ os.platform }}-${{ runner.arch }}
+          name: guessing-game-${{ matrix.platform }}-${{ runner.arch }}
           path: ./target/release/guessing-game
