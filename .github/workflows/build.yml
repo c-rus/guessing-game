@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build
-        steps: cargo build --release
+        run: cargo build --release
 
       - name: Upload ${{ os.platform }} artifact
         uses: actions/upload-artifact@v2
