@@ -37,14 +37,14 @@ jobs:
 
       - name: Compress binary executable for Unix
         if: ${{ runner.os == 'macOS' || runner.os == 'Linux' }}
-        run: cd ./target/release && tar -cvzf guessing-game-${{ matrix.platform }}-${{ runner.arch }}.tar.gz guessing-game
+        run: cd ./target/release && tar -cvzf ./../../guessing-game-${{ matrix.platform }}-${{ runner.arch }}.tar.gz guessing-game
 
       - name: Compress binary executable for Windows
         if: ${{ runner.os == 'Windows' }}
-        run: cd ./target/release && powershell.exe "compress-archive guessing-game.exe guessing-game-${{ matrix.platform }}-${{ runner.arch }}.zip"
+        run: cd ./target/release && powershell.exe "compress-archive guessing-game.exe ./../../guessing-game-${{ matrix.platform }}-${{ runner.arch }}.zip"
 
       - name: Upload ${{ matrix.platform }} artifact
         uses: actions/upload-artifact@v2
         with:
           name: guessing-game-${{ matrix.platform }}-${{ runner.arch }}
-          path: ./target/release/guessing-game-${{ matrix.platform }}-${{ runner.arch }}.**
+          path: ./guessing-game-${{ matrix.platform }}-${{ runner.arch }}.**
