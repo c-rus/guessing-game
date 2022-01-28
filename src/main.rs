@@ -14,25 +14,50 @@ use std::cmp::Ordering;
 use rand::Rng;
 
 fn main() {
-    println!("Guess the number!");
-    
-    let secret_number = rand::thread_rng().gen_range(1..101);
+    //number of possible numbers to select from
+    let max_num = 256;
 
-    println!("The secret number is: {}", secret_number);
+    //track the number of guesses
+    let mut attempts = 0;
 
-    println!("Please input your guess.");
+    println!("Guess the number (1-{})!", max_num);
 
-    let mut guess = String::new();
+    //generate a random number 1-100
+    let secret_number = rand::thread_rng().gen_range(1..max_num+1);
 
-    io::stdin()
-        .read_line(&mut guess)
-        .expect("Failed to read line");
+    //string formatting (comment this line to hide the answer!)
+    //println!("The secret number is: {}", secret_number);
 
-    println!("You guessed: {}", guess);
+    loop {
+        println!("Please input your guess."); 
 
-    match guess.cmp(&secret_number) {
-        Ordering::Less => println!("Too small!"),
-        Ordering::Greater => println!("Too big!"),
-        Ordering::Equal => println!("You win!"),
+        //create a new mutable string
+        let mut guess = String::new();
+
+        //accept user input
+        io::stdin()
+            .read_line(&mut guess)
+            .expect("Failed to read line");
+
+        //ignore a non-number guess and ask for another guess
+        //shadow the 'guess' identifier to keep name as new datatype
+        let guess : u32 =  match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => continue, //catch-all errors with '_'
+        };
+
+        println!("You guessed: {}", guess);
+        attempts += 1;
+
+        //select arm based on comparing guess to immutable reference to 'secret_number'
+        match guess.cmp(&secret_number) {
+            Ordering::Less => println!("Too small!"),
+            Ordering::Greater => println!("Too big!"),
+            Ordering::Equal => {
+                println!("You win! You took {} guesses.", attempts);
+                break;
+            }
+        }
     }
+
 }
