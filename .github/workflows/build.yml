@@ -2,6 +2,9 @@ name: Build
 on:
   workflow_call:
 
+env:
+  TARGET: guessing-game
+
 jobs:
   build:
     strategy:
@@ -10,13 +13,10 @@ jobs:
         include:
           - os: ubuntu-latest
             platform: linux
-            exe: 
           - os: windows-latest
             platform: windows
-            exe: .exe
           - os: macos-latest
             platform: macos
-            exe: 
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -37,14 +37,14 @@ jobs:
 
       - name: Compress binary executable for Unix
         if: ${{ runner.os == 'macOS' || runner.os == 'Linux' }}
-        run: cd ./target/release && tar -cvzf ./../../guessing-game-${{ matrix.platform }}-${{ runner.arch }}.tar.gz guessing-game
+        run: cd ./target/release && tar -cvzf ./../../${{ env.TARGET }}-${{ matrix.platform }}-${{ runner.arch }}.tar.gz ${{ env.TARGET }}
 
       - name: Compress binary executable for Windows
         if: ${{ runner.os == 'Windows' }}
-        run: cd ./target/release && powershell.exe "compress-archive guessing-game.exe ./../../guessing-game-${{ matrix.platform }}-${{ runner.arch }}.zip"
+        run: cd ./target/release && powershell.exe "compress-archive ${{ env.TARGET }}.exe ./../../${{ env.TARGET }}-${{ matrix.platform }}-${{ runner.arch }}.zip"
 
       - name: Upload ${{ matrix.platform }} artifact
         uses: actions/upload-artifact@v2
         with:
-          name: guessing-game-${{ matrix.platform }}-${{ runner.arch }}
-          path: ./guessing-game-${{ matrix.platform }}-${{ runner.arch }}.**
+          name: ${{ env.TARGET }}-${{ matrix.platform }}-${{ runner.arch }}
+          path: ./${{ env.TARGET }}-${{ matrix.platform }}-${{ runner.arch }}.**

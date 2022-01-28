@@ -6,4 +6,3 @@ on:
 jobs:
   build:
     uses: c-rus/guessing-game/.github/workflows/build.yml@master
-    needs: []
