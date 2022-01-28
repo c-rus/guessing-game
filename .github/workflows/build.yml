@@ -29,11 +29,11 @@ jobs:
           profile: minimal
           toolchain: stable
 
-      - name: Build
-        run: cargo build --release
-
       - name: Enable Cargo caching
         uses: Swatinem/rust-cache@v1
+
+      - name: Build
+        run: cargo build --release
 
       - name: Compress binary executable for Unix
         if: ${{ runner.os == 'macOS' || runner.os == 'Linux' }}
