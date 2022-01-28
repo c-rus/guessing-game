@@ -5,5 +5,5 @@ on:
 
 jobs:
   build:
-    uses: c-rus/orbit/.github/workflows/build.yml@master
+    uses: c-rus/guessing-game/.github/workflows/build.yml@master
     needs: []
