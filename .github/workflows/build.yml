@@ -23,12 +23,28 @@ jobs:
       - name: Fetch repository
         uses: actions/checkout@v2
 
+      - name: Configure rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+
       - name: Build
         run: cargo build --release
 
+      - name: Enable Cargo caching
+        uses: Swatinem/rust-cache@v1
+
+      - name: Compress binary executable for Unix
+        if: ${{ runner.os == 'macOS' || runner.os == 'Linux' }}
+        run: cd ./target/release && tar -cvzf guessing-game-${{ matrix.platform }}-${{ runner.arch }}.tar.gz guessing-game
+
+      - name: Compress binary executable for Windows
+        if: ${{ runner.os == 'Windows' }}
+        run: cd ./target/release && powershell.exe "compress-archive guessing-game.exe guessing-game-${{ matrix.platform }}-${{ runner.arch }}.zip"
+
       - name: Upload ${{ matrix.platform }} artifact
-        if: ${{ runner}}
         uses: actions/upload-artifact@v2
         with:
           name: guessing-game-${{ matrix.platform }}-${{ runner.arch }}
-          path: ./target/release/guessing-game${{ matrix.exe }}
+          path: ./target/release/guessing-game-${{ matrix.platform }}-${{ runner.arch }}.**
