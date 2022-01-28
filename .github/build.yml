@@ -1,0 +1,29 @@
+name: Build
+on:
+  workflow_call:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            platform: linux
+          - os: windows-latest
+            platform: windows
+          - os: macos-latest
+            platform: macos
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Fetch repository
+        uses: actions/checkout@v2
+
+      - name: Build
+        steps: cargo build --release
+
+      - name: Upload ${{ os.platform }} artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: guessing-game-${{ os.platform }}-${{ runner.arch }}
+          path: ./target/release/guessing-game

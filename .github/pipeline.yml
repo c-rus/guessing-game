@@ -1,0 +1,9 @@
+name: Pipeline
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: c-rus/orbit/.github/workflows/build.yml@master
+    needs: []
