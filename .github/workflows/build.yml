@@ -10,10 +10,14 @@ jobs:
         include:
           - os: ubuntu-latest
             platform: linux
+            exe: 
           - os: windows-latest
             platform: windows
+            exe: .exe
           - os: macos-latest
             platform: macos
+            exe: 
+
     runs-on: ${{ matrix.os }}
     steps:
       - name: Fetch repository
@@ -23,7 +27,8 @@ jobs:
         run: cargo build --release
 
       - name: Upload ${{ matrix.platform }} artifact
+        if: ${{ runner}}
         uses: actions/upload-artifact@v2
         with:
           name: guessing-game-${{ matrix.platform }}-${{ runner.arch }}
-          path: ./target/release/guessing-game
+          path: ./target/release/guessing-game${{ matrix.exe }}
