@@ -9,7 +9,7 @@ Abstract:
     Language book.
 */
 
-use guessing_game::logic;
+use guessing_game;
 use rand::Rng;
 use std::cmp::Ordering;
 use std::io;
