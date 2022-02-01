@@ -48,7 +48,7 @@ fn main() {
         };
 
         println!("You guessed: {}", guess);
-        attempts = logic::increment(attempts);
+        attempts = guessing_game::logic::increment(attempts);
 
         //select arm based on comparing guess to immutable reference to 'secret_number'
         match guess.cmp(&secret_number) {
