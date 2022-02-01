@@ -9,9 +9,9 @@ Abstract:
     Language book.
 */
 
-use std::io;
-use std::cmp::Ordering;
 use rand::Rng;
+use std::cmp::Ordering;
+use std::io;
 
 fn main() {
     //number of possible numbers to select from
@@ -23,13 +23,13 @@ fn main() {
     println!("Guess the number (1-{})!", max_num);
 
     //generate a random number 1-100
-    let secret_number = rand::thread_rng().gen_range(1..max_num+1);
+    let secret_number = rand::thread_rng().gen_range(1..max_num + 1);
 
     //string formatting (comment this line to hide the answer!)
     //println!("The secret number is: {}", secret_number);
 
     loop {
-        println!("Please input your guess."); 
+        println!("Please input your guess.");
 
         //create a new mutable string
         let mut guess = String::new();
@@ -41,7 +41,7 @@ fn main() {
 
         //ignore a non-number guess and ask for another guess
         //shadow the 'guess' identifier to keep name as new datatype
-        let guess : u32 =  match guess.trim().parse() {
+        let guess: u32 = match guess.trim().parse() {
             Ok(num) => num,
             Err(_) => continue, //catch-all errors with '_'
         };
@@ -59,5 +59,4 @@ fn main() {
             }
         }
     }
-
 }
