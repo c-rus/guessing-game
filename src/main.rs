@@ -9,21 +9,17 @@ Abstract:
     Language book.
 */
 
+use guessing_game::logic;
 use rand::Rng;
 use std::cmp::Ordering;
 use std::io;
-
-/// num++  
-fn increment(num: u32) -> u32 {
-    return num + 1;
-}
 
 fn main() {
     //number of possible numbers to select from
     let max_num = 256;
 
     //track the number of guesses
-    let mut attempts = 0;
+    let mut attempts: u32 = 0;
 
     println!("Guess the number! (1-{})", max_num);
 
@@ -52,7 +48,7 @@ fn main() {
         };
 
         println!("You guessed: {}", guess);
-        attempts = increment(attempts);
+        attempts = logic::increment(attempts);
 
         //select arm based on comparing guess to immutable reference to 'secret_number'
         match guess.cmp(&secret_number) {
@@ -63,19 +59,5 @@ fn main() {
                 break;
             }
         }
-    }
-}
-
-//--- unit tests ---
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn increments_by_1() {
-        assert_eq!(increment(20), 21);
-
-        let n1: u32 = 0;
-        assert_eq!(increment(n1), 0 + 1);
     }
 }
