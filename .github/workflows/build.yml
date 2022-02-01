@@ -35,6 +35,9 @@ jobs:
       - name: Build
         run: cargo build --release
 
+      - name: Test
+        run: cargo test
+
       - name: Compress binary executable for Unix
         if: ${{ runner.os == 'macOS' || runner.os == 'Linux' }}
         run: cd ./target/release && tar -cvzf ./../../${{ env.TARGET }}-${{ matrix.platform }}.tar.gz ${{ env.TARGET }}
