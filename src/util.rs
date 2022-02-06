@@ -3,7 +3,6 @@ pub fn increment(num: u32) -> u32 {
     return num + 1;
 }
 
-//--- unit tests ---
 #[cfg(test)]
 mod tests {
     use super::*;
