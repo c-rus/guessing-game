@@ -41,7 +41,7 @@ jobs:
 
       - name: Compress binary executable for Unix
         if: ${{ runner.os == 'macOS' || runner.os == 'Linux' }}
-        run: cd ./target/release && tar -cvzf ./../../${{ env.TARGET }}-${{ matrix.platform }}.tar.gz ${{ env.TARGET }}
+        run: cd ./target/release && zip ./../../${{ env.TARGET }}-${{ matrix.platform }}.zip ${{ env.TARGET }}
 
       - name: Compress binary executable for Windows
         if: ${{ runner.os == 'Windows' }}
@@ -70,7 +70,7 @@ jobs:
       - name: Upload releases
         uses: ncipollo/release-action@v1
         with:
-          artifacts: '**/${{ env.TARGET }}-*.tar.gz,**/${{ env.TARGET }}-*.zip'
+          artifacts: '**/${{ env.TARGET }}-*.zip'
           bodyFile: CHANGELOG.md
           token: ${{ secrets.GITHUB_TOKEN }}
 
