@@ -58,6 +58,9 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref_type == 'tag'
     steps:
+      - name: Fetch repository
+        uses: actions/checkout@v2
+
       - name: Download artifacts
         uses: actions/download-artifact@v2
 
