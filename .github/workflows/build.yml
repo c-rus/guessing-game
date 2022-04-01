@@ -1,5 +1,6 @@
 name: Build
 on:
+  push:
   workflow_call:
 
 env:
@@ -51,3 +52,22 @@ jobs:
         with:
           name: ${{ env.TARGET }}-${{ matrix.platform }}
           path: ./${{ env.TARGET }}-${{ matrix.platform }}.**
+
+  release:
+    runs-on: ubuntu-latest
+    if: ${{ GITHUB_REF_TYPE == 'tag' }}
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+
+    - name: Display filesystem contents
+      run: ls -R
+
+    - name: Upload releases
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: '**/${{ env.TARGET }}-*.tar.gz,**/${{ env.TARGET }}-*.zip'
+        bodyFile: CHANGELOG.md
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+      
