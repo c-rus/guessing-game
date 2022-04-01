@@ -1,7 +1,7 @@
 name: Build
 on:
+  workflow_dispatch:
   push:
-  workflow_call:
 
 env:
   TARGET: guessing-game
@@ -54,6 +54,7 @@ jobs:
           path: ./${{ env.TARGET }}-${{ matrix.platform }}.**
 
   release:
+    needs: [build]
     runs-on: ubuntu-latest
     if: ${{ GITHUB_REF_TYPE == 'tag' }}
     steps:
