@@ -7,6 +7,9 @@ if len(sys.argv) != 2:
 pattern = sys.argv[1]
 pkgs = glob.glob(pattern)
 
+if len(pkgs) == 0:
+    exit("error: found zero matches for",pattern)
+
 for pkg in pkgs:
     with open(pkg, 'rb') as f:
         body_bytes = f.read()
