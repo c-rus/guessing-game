@@ -1,4 +1,7 @@
 # Changelog
+## v1.0.5
+## Changes
+- uses python hashlib in CI to compute checksums
 
 ## v1.0.4
 ### Changes
