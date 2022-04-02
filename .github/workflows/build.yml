@@ -66,14 +66,14 @@ jobs:
           cd ./${{ env.TARGET }}-macos-x64; sha256sum ${{ env.TARGET }}-macos-x64.zip >> ./../checksum.txt; cd ..
           cd ./${{ env.TARGET }}-windows-x64; sha256sum ${{ env.TARGET }}-windows-x64.zip >> ./../checksum.txt; cd ..
 
-    - name: Review checksums
-      run: cat ./checksum.txt
+      - name: Review checksums
+        run: cat ./checksum.txt
 
-    - name: Upload checksums
-      uses: actions/upload-artifact@v2
-      with:
-        name: checksum
-        path: ./checksum.txt
+      - name: Upload checksums
+        uses: actions/upload-artifact@v2
+        with:
+          name: checksum
+          path: ./checksum.txt
 
   release:
     needs: [integrity]
