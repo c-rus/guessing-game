@@ -57,6 +57,9 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+
       - name: Compute checksums
         run: |
           cd ./${{ env.TARGET }}-linux-x64; sha256sum ${{ env.TARGET }}-linux-x64.zip >> ./../checksum.txt; cd ..
