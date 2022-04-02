@@ -69,7 +69,7 @@ jobs:
         uses: actions/download-artifact@v2
 
       - name: Compute checksums
-        run: echo "$(python "./${{ env.TARGET }}-*.zip")" > ./checksum.txt
+        run: echo "$(python ./tools/sum.py "./${{ env.TARGET }}-*.zip")" > ./checksum.txt
 
       - name: Review checksums
         run: cat ./checksum.txt
