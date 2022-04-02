@@ -1,6 +1,10 @@
 # Changelog
+## v1.0.6
+### Fixes
+- checksums are actually computed and stored in file during CI
+
 ## v1.0.5
-## Changes
+### Changes
 - uses python hashlib in CI to compute checksums
 
 ## v1.0.4
