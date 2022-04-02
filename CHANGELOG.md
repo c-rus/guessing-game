@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.0.4
+### Changes
+- adds checksum file to releases using sha256
+
 ## v1.0.3
 ### Changes
 - releases all binaries in .zip

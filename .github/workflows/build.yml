@@ -53,8 +53,27 @@ jobs:
           name: ${{ env.TARGET }}-${{ matrix.platform }}
           path: ./${{ env.TARGET }}-${{ matrix.platform }}.**
 
-  release:
+  integrity:
     needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Compute checksums
+        run: |
+          cd ./${{ env.TARGET }}-linux-x64; sha256sum ${{ env.TARGET }}-linux-x64.zip >> ./../checksum.txt; cd ..
+          cd ./${{ env.TARGET }}-macos-x64; sha256sum ${{ env.TARGET }}-macos-x64.zip >> ./../checksum.txt; cd ..
+          cd ./${{ env.TARGET }}-windows-x64; sha256sum ${{ env.TARGET }}-windows-x64.zip >> ./../checksum.txt; cd ..
+
+    - name: Review checksums
+      run: cat ./checksum.txt
+
+    - name: Upload checksums
+      uses: actions/upload-artifact@v2
+      with:
+        name: checksum
+        path: ./checksum.txt
+
+  release:
+    needs: [integrity]
     runs-on: ubuntu-latest
     if: github.ref_type == 'tag'
     steps:
@@ -70,7 +89,7 @@ jobs:
       - name: Upload releases
         uses: ncipollo/release-action@v1
         with:
-          artifacts: '**/${{ env.TARGET }}-*.zip'
+          artifacts: '**/${{ env.TARGET }}-*.zip,**/checksum.txt'
           bodyFile: CHANGELOG.md
           token: ${{ secrets.GITHUB_TOKEN }}
 
