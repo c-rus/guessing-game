@@ -53,6 +53,18 @@ jobs:
           name: ${{ env.TARGET }}-${{ matrix.platform }}
           path: ./${{ env.TARGET }}-${{ matrix.platform }}.**
 
+  tagger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch repository
+        uses: actions/checkout@v2
+
+      - name: Create tag
+        run: git tag example-tag
+
+      - name: Push tag
+        run: git push --tags
+
   integrity:
     needs: [build]
     runs-on: ubuntu-latest
