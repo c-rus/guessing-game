@@ -1,4 +1,9 @@
 # Changelog
+
+## v1.1.0
+### Changes
+- distributable package is now a folder containing LICENSE and precompiled binary
+
 ## v1.0.6
 ### Fixes
 - checksums are actually computed and stored in file during CI

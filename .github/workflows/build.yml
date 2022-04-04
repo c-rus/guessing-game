@@ -24,6 +24,11 @@ jobs:
       - name: Fetch repository
         uses: actions/checkout@v2
 
+      - name: Setup python
+        uses: actions/setup-python@v2.2.2
+        with:
+          python-version: 3.x
+          
       - name: Configure rust toolchain
         uses: actions-rs/toolchain@v1
         with:
@@ -39,19 +44,14 @@ jobs:
       - name: Test
         run: cargo test
 
-      - name: Compress binary executable for Unix
-        if: ${{ runner.os == 'macOS' || runner.os == 'Linux' }}
-        run: cd ./target/release && zip ./../../${{ env.TARGET }}-${{ matrix.platform }}.zip ${{ env.TARGET }}
-
-      - name: Compress binary executable for Windows
-        if: ${{ runner.os == 'Windows' }}
-        run: cd ./target/release && powershell.exe "compress-archive ${{ env.TARGET }}.exe ./../../${{ env.TARGET }}-${{ matrix.platform }}.zip"
+      - name: Pack and compress binary package
+        run: python ./tools/pack.py ${{ matrix.platform }}
 
       - name: Upload ${{ matrix.platform }} artifact
         uses: actions/upload-artifact@v2
         with:
           name: ${{ env.TARGET }}-${{ matrix.platform }}
-          path: ./${{ env.TARGET }}-${{ matrix.platform }}.**
+          path: ./${{ env.TARGET }}-${{ matrix.platform }}.zip
 
   tagger:
     runs-on: ubuntu-latest
